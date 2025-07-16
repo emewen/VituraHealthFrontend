@@ -1,69 +1,69 @@
-# React + TypeScript + Vite
+# Vitura assessment 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The code is split in a frontend project and a backend project:
 
-Currently, two official plugins are available:
+- [frontend](https://github.com/emewen/VituraHealthFrontend)
+- [backend](https://github.com/emewen/VituraHealthBackend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Vitura assessment backend startup
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+To run, open in Visual Studio and run with the "http" profile.  If you run as https, a self signed cert will be needed/created
+on first run.  Also axiosInstance.tsx on the front end will need:
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+const API_BASE_URL = 'http://localhost:5191/api';
 ```
+changed to:
+```js
+const API_BASE_URL = 'http://localhost:7134/api';
+```
+
+If you prefer to run from the command line, navigate to the \VituraHealthBackend\VituraHealthBackend project folder and run
+the below in Developer Powershell or cmd:
+
+```js
+dotnet run --launch-profile http
+```
+
+# Vitura assessment frontend startup
+
+Open frontend codebase in VSCode preferably.  Navigate to \VituraHealthFrontend directory and in terminal run:
+```js
+npm install
+npm run dev
+```
+
+Axios and react bootstrap were installed as well but should be pulled in with the above.  If not run:
+```js
+npm install axios
+npm install react-bootstrap bootstrap
+```
+
+
+## Assumptions / Incompletes
+
+- I scaffolded the frontend with vite (react/typescript) and used a .net core 8 web api project stucture for the backend
+- Cache is used (IMemoryCache) instead of database.  One minute sliding expiration, 5 minute absolute expiration.
+- I created a list of Patients with an expanding Prescriptions per Patient with a mobile friendly style using react Bootstrap
+- I used axios to create an apiclient to access the backend
+
+## Incompletes
+
+- I only created two tests to show testing competency with nUnit and Moq
+- Exception handling is NOT fully fleshed out.  Mainly 500 server errors and "pretty" api responses
+- Ideally I would create multiple appsettings.json (one for each environment).  Since there were minimal config entries, I didn't lean on .netcore configuration
+- Didn't have time for a Patient/Prescription search.  Relatively easy:
+	- textbox in frontend
+	- pass textbox value via querystring appended to /api/patients?somesearch=blah
+	- update backend patients controller getter ([FromQuery])
+	- linq filter on result set if query text is not String.Empty
+
+## Time taken
+
+- Roughly 4 hours
+- 15 minutes solutioning/whiteboarding backend
+- 1 hour backend dev
+- 15 minutes solutioning/whiteboarding frontend
+- 1.5 hours frontend dev
+- 30 minutes style
+- 30 minutes polish and readme documentation

@@ -1,5 +1,5 @@
 export interface ChildRowData {
-    id: string;
+    childId: string;
     parentId: string;
     childName: string;
     quantity: number;
@@ -7,8 +7,8 @@ export interface ChildRowData {
 }
   
 export interface ParentRowData {
-    id: string;
-    name: string;
+    parentId: string;
+    parentName: string;
     total: number;
     children: ChildRowData[]; // Array of child data
     // ... other parent-specific properties
